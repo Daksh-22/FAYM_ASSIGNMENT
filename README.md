@@ -1,31 +1,47 @@
-# Faym PM Internship Assignment
+Subject: Faym PM Internship Assignment Submission – Daksh Jain
 
-Interactive submission for Faym's Product Management Internship assignment.
+Hi [Hiring Team],
 
-## Contents
+I'm submitting my solution for the Faym PM Internship assignment.
 
-- **index.html** — Interactive guide with 7 spec gaps, architecture diagrams, and proof of testing
-- **faym_agent/** — Full returns automation agent codebase (also in zip)
-- **assets/** — SQL assignment (PDF) and agent code (zip)
+START HERE
+👉 Interactive Guide: https://faym-assignment-omega.vercel.app/
+(2-minute walkthrough of entire submission)
 
-## View Live
+SUBMISSIONS
+1. Interactive HTML Guide
+   Link: https://faym-assignment-omega.vercel.app/
+   Covers: 7 spec gaps, architecture, design decisions, proof
 
-Open `index.html` in any browser, or deploy to Vercel (see below).
+2. Returns Automation Agent
+   GitHub: https://github.com/YOUR_USERNAME/FAYM_ASSIGNMENT/tree/main/faym_agent
+   10/10 tests passing
+   Quick start: python main.py --demo (no credentials needed)
 
-## Setup & Testing
+3. SQL Assignment
+   PDF: https://github.com/YOUR_USERNAME/FAYM_ASSIGNMENT/blob/main/assets/Daksh_Jain_Faym_SQL_Assignment.pdf
+   5 questions, real SQL execution, honest caveats on statistical assumptions
 
-```bash
-cd faym_agent
-pip install -r requirements.txt
-python -m pytest tests/ -v      # 10/10 tests passing
-python main.py --demo           # Dry-run with sample data
-```
+HIGHLIGHTS
+✓ 10/10 unit tests passing
+✓ Reproduces brief's §5 scenario (partial success case)
+✓ Idempotent, resumable after crash
+✓ Deterministic flow detection (not LLM)
+✓ Two-tier retry logic (eligibility vs transient)
+✓ Honest about what's tested vs scaffolded
 
-## Submission
+REVIEW PATH
+2 min:  Open the interactive guide
+10 min: + Run pytest and python main.py --demo
+30 min: + Read DESIGN.md and inspect core/ code
 
-- **Interactive guide:** See live version (Vercel link)
-- **Agent code:** `faym_agent/` directory
-- **SQL assignment:** `assets/Daksh_Jain_Faym_SQL_Assignment.pdf`
+GitHub Repo: https://github.com/YOUR_USERNAME/FAYM_ASSIGNMENT
 
----
-Daksh Jain | dakshjain311@gmail.com | +91 8377804969
+Contact
+Email: dakshjain311@gmail.com
+Phone: +91 8377804969
+
+Looking forward to discussing the submission.
+
+Best regards,
+Daksh Jain
