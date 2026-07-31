@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Returns Automation Agent · Daksh Jain · Faym PM Internship</title>
+<style>
+  :root{
+    --navy:#14325a; --ink:#16181d; --mut:#5c6672; --line:#e2e6ec; --soft:#f6f8fb;
+    --amber:#b5730a; --amber-bg:#fff8ea; --green:#1a7a4c; --green-bg:#eefaf3;
+    --red:#b03030; --code-bg:#161b25;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,sans-serif;
+       color:var(--ink);background:#fff;line-height:1.55;font-size:14.5px;-webkit-font-smoothing:antialiased}
+
+  nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);
+      backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav-in{max-width:1060px;margin:0 auto;padding:0 26px;display:flex;align-items:center;
+          gap:22px;height:50px;overflow-x:auto}
+  .nav-brand{font-weight:700;color:var(--navy);white-space:nowrap;font-size:13.5px}
+  nav a{color:var(--mut);text-decoration:none;font-size:13px;white-space:nowrap;
+        padding:3px 0;border-bottom:2px solid transparent;transition:.15s}
+  nav a:hover,nav a.on{color:var(--navy)}
+  nav a.on{font-weight:600;border-bottom-color:var(--navy)}
+
+  .wrap{max-width:1060px;margin:0 auto;padding:0 26px}
+  section{padding:36px 0;border-bottom:1px solid var(--line)}
+  section:last-of-type{border-bottom:none}
+
+  h1{font-size:29px;line-height:1.15;margin:0 0 8px;letter-spacing:-.02em;color:var(--navy)}
+  h2{font-size:20px;margin:0 0 14px;letter-spacing:-.015em;color:var(--navy)}
+  h3{font-size:15px;margin:22px 0 6px;color:var(--navy)}
+  .kicker{text-transform:uppercase;letter-spacing:.09em;font-size:10.5px;font-weight:700;
+          color:var(--mut);margin-bottom:7px}
+  p{max-width:84ch;margin:9px 0}
+  .lede{font-size:15.5px;color:#39414d;max-width:76ch;margin:0}
+
+  header{padding:34px 0 30px;border-bottom:1px solid var(--line);
+         background:linear-gradient(180deg,#f8fafc,#fff)}
+  .meta{color:var(--mut);font-size:13px;margin-top:12px}
+  .meta b{color:var(--ink)}
+  .pills{display:flex;gap:7px;flex-wrap:wrap;margin-top:15px}
+  .pill{font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:100px;
+        background:#eaf0f8;color:var(--navy);border:1px solid #d3e0f0}
+  .pill.g{background:var(--green-bg);color:var(--green);border-color:#c2e6d4}
+
+  pre{background:var(--code-bg);color:#dfe6f0;padding:12px 14px;border-radius:7px;
+      overflow-x:auto;font-size:12.2px;line-height:1.55;margin:10px 0;
+      font-family:'SF Mono',Menlo,Consolas,monospace}
+  pre.sh{background:#0f1520}
+  code.inl{background:#eef1f6;padding:1px 5px;border-radius:4px;font-size:12.4px;
+           font-family:'SF Mono',Menlo,Consolas,monospace;color:#2a3a52}
+  .kw{color:#c792ea}.st{color:#c3e88d}.cm{color:#6b7a90;font-style:italic}
+  .fn{color:#82aaff}.nu{color:#f78c6c}.dec{color:#ffcb6b}
+  .pass{color:#4ade80}.dim{color:#7d8ca0}
+
+  .box{border-left:3px solid var(--navy);background:var(--soft);padding:11px 15px;
+       margin:13px 0;border-radius:0 6px 6px 0}
+  .box.a{border-color:var(--amber);background:var(--amber-bg)}
+  .box.g{border-color:var(--green);background:var(--green-bg)}
+  .box .t{font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.05em;
+          margin-bottom:3px;color:var(--navy)}
+  .box.a .t{color:var(--amber)} .box.g .t{color:var(--green)}
+  .box p{margin:0;font-size:13.8px;max-width:none}
+
+  .gap{border:1px solid var(--line);border-radius:8px;margin-bottom:8px;background:#fff;overflow:hidden}
+  .gap-h{padding:12px 15px;cursor:pointer;display:flex;gap:12px;align-items:flex-start}
+  .gap-h:hover{background:#fafcfe}
+  .gap-n{flex:0 0 23px;height:23px;border-radius:5px;background:var(--navy);color:#fff;
+         font-size:11.5px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px}
+  .gap-t{flex:1}
+  .gap-t .ti{font-weight:650;font-size:14.3px;letter-spacing:-.01em}
+  .gap-t .fix{display:block;font-size:12.9px;color:var(--green);margin-top:3px;font-weight:500}
+  .tag{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;
+       letter-spacing:.05em;padding:2px 7px;border-radius:4px;margin-left:7px;vertical-align:2px}
+  .tag.contra{background:#fdeaea;color:var(--red)}
+  .tag.unsp{background:var(--amber-bg);color:var(--amber);border:1px solid #f0dcb4}
+  .tag.miss{background:#efe9fb;color:#6b3fc4}
+  .gap-x{flex:0 0 auto;color:var(--mut);font-size:18px;line-height:1;transition:transform .2s}
+  .gap.open .gap-x{transform:rotate(45deg)}
+  .gap-b{display:none;padding:0 15px 15px 50px;font-size:13.9px}
+  .gap.open .gap-b{display:block}
+  .gap-b p{margin:8px 0;max-width:82ch}
+  .quote{border-left:2.5px solid #c8d4e4;padding:5px 0 5px 12px;margin:10px 0;color:#41505f;
+         font-style:italic;font-size:13.4px}
+  .quote span{font-style:normal;font-size:11px;color:var(--mut);display:block;margin-top:3px;
+              text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+
+  table{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0}
+  th{background:var(--navy);color:#fff;text-align:left;padding:8px 11px;font-weight:600;font-size:12px}
+  td{border:1px solid var(--line);padding:7px 11px;vertical-align:top}
+  tr:nth-child(even) td{background:#fbfcfe}
+  .ok{color:var(--green);font-weight:700}
+  .no{color:var(--red);font-weight:700}
+  td.f{font-family:'SF Mono',Menlo,monospace;font-size:11.8px;color:#2a3a52;white-space:nowrap}
+
+  .arch{border:1px solid var(--line);border-radius:9px;padding:18px;background:var(--soft);margin:14px 0}
+  .arch svg{width:100%;height:auto;display:block}
+  .node{cursor:pointer}
+  .node rect{transition:.18s}
+  .node:hover rect{fill:#dbe7f6}
+  .node.sel rect{fill:var(--navy)}
+  .node.sel text{fill:#fff!important}
+  #archOut{margin-top:12px;min-height:44px}
+  .hint{text-align:center;color:var(--mut);font-size:12px;font-style:italic;margin-top:10px}
+
+  .terminal{background:#0d1117;border-radius:7px;overflow:hidden;margin:12px 0;border:1px solid #232c3a}
+  .term-bar{background:#1a222e;padding:6px 12px;font-size:11px;color:#8b98a8;
+            font-family:'SF Mono',Menlo,monospace;border-bottom:1px solid #232c3a}
+  .terminal pre{margin:0;border-radius:0;background:transparent;font-size:11.8px}
+
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:12px}
+  ul.tight{margin:6px 0;padding-left:18px}
+  ul.tight li{margin-bottom:4px;font-size:13.9px;max-width:82ch}
+  footer{padding:26px 0 40px;color:var(--mut);font-size:13px}
+  @media(max-width:820px){.two{grid-template-columns:1fr}.gap-b{padding-left:15px}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <span class="nav-brand">Returns Agent · Daksh Jain</span>
+    <a href="#gaps" class="on">Spec gaps</a>
+    <a href="#trace">Traceability</a>
+    <a href="#arch">Architecture</a>
+    <a href="#calls">Key decision</a>
+    <a href="#proof">Proof</a>
+    <a href="#scope">Scope &amp; next</a>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap">
+    <div class="kicker">Faym · PM Internship · Assignment 2</div>
+    <h1>Browser Agent for Automated Multi-Item Returns</h1>
+    <p class="lede">Reads return tasks from Excel, places them on Amazon and Flipkart, writes results
+    back per line item. Working and tested. This page is the tour; the zip is the code.</p>
+    <div class="pills">
+      <span class="pill g">10/10 tests passing</span>
+      <span class="pill">7 gaps found in the brief</span>
+      <span class="pill">Verifiable in 2 min, no browser or credentials</span>
+    </div>
+    <div class="meta"><b>Daksh Jain</b> · dakshjain311@gmail.com · +91 8377804969 · 2 Aug 2026</div>
+  </div>
+</header>
+
+<section id="gaps">
+  <div class="wrap">
+    <div class="kicker">01 · The part that matters most</div>
+    <h2>Seven decisions the brief leaves unmade</h2>
+    <p style="margin-top:-6px;color:var(--mut);font-size:13.5px">Headline plus resolution is the whole
+    argument. Expand only if you want the code.</p>
+
+    <div class="gap" onclick="tg(this)">
+      <div class="gap-h">
+        <div class="gap-n">1</div>
+        <div class="gap-t">
+          <span class="ti">Amazon is listed under both flow models<span class="tag contra">contradiction</span></span>
+          <span class="fix">→ Read as order-dependent, not sloppy. Single-seller single-shipment batches; split shipment goes sequential.</span>
+        </div>
+        <div class="gap-x">+</div>
+      </div>
+      <div class="gap-b">
+        <div class="quote">"Batch flow (e.g. Amazon)..." / "Sequential flow (e.g. Amazon, Flipkart)..."
+        <span>Brief, §2</span></div>
+        <p>Most consequential line in the document: the wrong answer means skipped items or duplicate filings.</p>
+        <pre><span class="kw">def</span> <span class="fn">_amazon_flow_model</span>(items) -> FlowModel:
+    sellers   = {i.get(<span class="st">"seller_id"</span>)   <span class="kw">for</span> i <span class="kw">in</span> items <span class="kw">if</span> i.get(<span class="st">"seller_id"</span>)}
+    shipments = {i.get(<span class="st">"shipment_id"</span>) <span class="kw">for</span> i <span class="kw">in</span> items <span class="kw">if</span> i.get(<span class="st">"shipment_id"</span>)}
+    <span class="kw">return</span> FlowModel.BATCH <span class="kw">if</span> len(sellers) &lt;= <span class="nu">1</span> <span class="kw">and</span> len(shipments) &lt;= <span class="nu">1</span> <span class="kw">else</span> FlowModel.SEQUENTIAL</pre>
+        <p>Unknown platforms default to sequential: over-processing is recoverable, silent skipping is not.</p>
+      </div>
+    </div>
+
+    <div class="gap" onclick="tg(this)">
+      <div class="gap-h">
+        <div class="gap-n">2</div>
+        <div class="gap-t">
+          <span class="ti">Re-run safety: absent from the brief, and the costliest failure here<span class="tag miss">missing</span></span>
+          <span class="fix">→ Idempotent by construction. Only To Do / In Progress rows load; every item commits to disk the moment it resolves.</span>
+        </div>
+        <div class="gap-x">+</div>
+      </div>
+      <div class="gap-b">
+        <p>The brief assumes the loop finishes. In production it dies at item 30 of 50 and someone
+        re-runs it. A naive implementation re-files returns it already filed. Duplicate returns create
+        support tickets, can trip fraud review, and are worse than no automation.</p>
+        <pre><span class="cm"># load_pending_tasks: rows already terminal are never re-read</span>
+<span class="kw">if</span> status <span class="kw">not in</span> (<span class="kw">None</span>, <span class="st">""</span>, TaskStatus.TO_DO.value, TaskStatus.IN_PROGRESS.value):
+    <span class="kw">continue</span></pre>
+        <p>A crash costs nothing already done, and re-running becomes the safe default rather than
+        something an operator has to think hard about first.</p>
+      </div>
+    </div>
+
+    <div class="gap" onclick="tg(this)">
+      <div class="gap-h">
+        <div class="gap-n">3</div>
+        <div class="gap-t">
+          <span class="ti">Bot avoidance is mandatory in §1 and a bonus in §6<span class="tag contra">contradiction</span></span>
+          <span class="fix">→ Built it properly, but reframed the goal to reducing detection risk. Nobody can guarantee the mandatory version.</span>
+        </div>
+        <div class="gap-x">+</div>
+      </div>
+      <div class="gap-b">
+        <div class="quote">"...must run without getting flagged or blocked as a bot" (§1) vs
+        "6. Bot-Detection Avoidance (Bonus)"<span>Brief, §1 and §6</span></div>
+        <p>No client-side technique reliably defeats server-side detection. Anyone claiming they solved
+        it is overstating. Five signal categories covered, headful not headless:</p>
+        <ul class="tight">
+          <li><b>Fingerprint</b>: patch <code class="inl">navigator.webdriver</code>, plugins, languages</li>
+          <li><b>Timing</b>: delays sampled from a distribution, never a fixed sleep</li>
+          <li><b>Motion</b>: randomised cursor path to target instead of teleporting</li>
+          <li><b>Input</b>: per-character typing with jitter, not <code class="inl">fill()</code></li>
+          <li><b>Session</b>: persistent profile dir, so the account reads as a returning user</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="gap" onclick="tg(this)">
+      <div class="gap-h">
+        <div class="gap-n">4</div>
+        <div class="gap-t">
+          <span class="ti">Out of window: is the task Done, or does a human review it?<span class="tag unsp">undefined</span></span>
+          <span class="fix">→ Done. The agent reached a correct final answer. Routing it to review floods the queue with items needing no decision.</span>
+        </div>
+        <div class="gap-x">+</div>
+      </div>
+      <div class="gap-b">
+        <div class="quote">"Return status: Placed / Failed / Out of window" · "Task status: Done / Needs
+        human review"<span>Brief, §4</span></div>
+        <p>Two vocabularies, no mapping between them. Failed maps to review, where human judgment
+        actually adds something.</p>
+        <pre><span class="kw">self</span>.task_status = (
+    TaskStatus.DONE <span class="kw">if</span> return_status <span class="kw">in</span> (ReturnStatus.PLACED, ReturnStatus.OUT_OF_WINDOW)
+    <span class="kw">else</span> TaskStatus.NEEDS_REVIEW)</pre>
+        <p>If your ops team chases out-of-window items for goodwill refunds, my default is wrong and
+        it's a one-line change. That's a question about your process, which is why I've surfaced it.</p>
+      </div>
+    </div>
+
+    <div class="gap" onclick="tg(this)">
+      <div class="gap-h">
+        <div class="gap-n">5</div>
+        <div class="gap-t">
+          <span class="ti">"Return window: Input / verified". Who wins when Excel and the platform disagree?<span class="tag unsp">undefined</span></span>
+          <span class="fix">→ Excel is a cheap pre-filter, the platform is truth. A missing window means ask the platform, never assume ineligible.</span>
+        </div>
+        <div class="gap-x">+</div>
+      </div>
+      <div class="gap-b">
+        <p>Eligibility is checked before a browser opens, so hopeless items cost nothing and don't add
+        avoidable traffic to an account we want unflagged. The adapter checks again live; the platform wins.</p>
+        <pre><span class="kw">def</span> <span class="fn">is_eligible</span>(<span class="kw">self</span>, as_of=<span class="kw">None</span>) -> bool:
+    as_of = as_of <span class="kw">or</span> date.today()
+    <span class="kw">if</span> <span class="kw">self</span>.return_window_end <span class="kw">is</span> <span class="kw">None</span>:
+        <span class="kw">return</span> <span class="kw">True</span>  <span class="cm"># unknown window: let the platform judge</span>
+    <span class="kw">return</span> as_of &lt;= <span class="kw">self</span>.return_window_end</pre>
+        <p>Assuming ineligible on missing data would be a silent revenue leak. Systematic disagreement
+        between sheet and platform is also an upstream data-quality signal worth reporting.</p>
+      </div>
+    </div>
+
+    <div class="gap" onclick="tg(this)">
+      <div class="gap-h">
+        <div class="gap-n">6</div>
+        <div class="gap-t">
+          <span class="ti">§5 wants an order-level status that §4's schema can't store<span class="tag contra">inconsistency</span></span>
+          <span class="fix">→ Derived, never stored. Two sources of truth drift; a derived property is correct by definition.</span>
+        </div>
+        <div class="gap-x">+</div>
+      </div>
+      <div class="gap-b">
+        <div class="quote">"Only mark the order fully Done when every line item has a final recorded state."
+        <span>Brief, §5</span></div>
+        <pre><span class="dec">@property</span>
+<span class="kw">def</span> <span class="fn">is_fully_done</span>(<span class="kw">self</span>) -> bool:
+    <span class="kw">return</span> all(t.task_status <span class="kw">in</span> (TaskStatus.DONE, TaskStatus.NEEDS_REVIEW) <span class="kw">for</span> t <span class="kw">in</span> <span class="kw">self</span>.tasks)</pre>
+        <p>Surfaced in the audit log's per-order summary, so a human sees it without a column the spec
+        never defined.</p>
+      </div>
+    </div>
+
+    <div class="gap" onclick="tg(this)">
+      <div class="gap-h">
+        <div class="gap-n">7</div>
+        <div class="gap-t">
+          <span class="ti">"Failed" bundles two failures needing opposite treatment<span class="tag unsp">undefined</span></span>
+          <span class="fix">→ Out of window never retries. Timeouts retry 3× with backoff plus jitter. Conflating them breaks one or the other.</span>
+        </div>
+        <div class="gap-x">+</div>
+      </div>
+      <div class="gap-b">
+        <table>
+          <tr><th style="width:30%">Failure</th><th style="width:18%">Retry</th><th>Cost of getting it wrong</th></tr>
+          <tr><td>Out of window</td><td class="no">Never</td>
+              <td>Wastes time, fires repeat requests at an account we want unflagged, never succeeds.</td></tr>
+          <tr><td>Timeout, selector miss</td><td class="ok">3× backoff</td>
+              <td>Giving up turns a routine blip into a false "needs review". A human handles what
+              attempt two would have fixed, defeating the point of automating.</td></tr>
+        </table>
+        <pre>backoff = BASE_BACKOFF_SECONDS * (<span class="nu">2</span> ** (attempt - <span class="nu">1</span>)) + random.uniform(<span class="nu">0</span>, <span class="nu">1</span>)</pre>
+        <p>Jitter is deliberate: fixed backoff across a batch produces synchronised retry bursts, itself
+        a bot signal.</p>
+      </div>
+    </div>
+
+    <div class="box g">
+      <div class="t">Why this section leads</div>
+      <p>Writing the code was the smaller half. Deciding what it should do where the brief was silent
+      is the half that looks like the job. Each of the seven is somewhere a reasonable person could
+      have built something different and never mentioned it.</p>
+    </div>
+  </div>
+</section>
+
+<section id="trace">
+  <div class="wrap">
+    <div class="kicker">02 · Traceability</div>
+    <h2>Every requirement, mapped</h2>
+    <table>
+      <tr><th style="width:27%">Requirement</th><th style="width:23%">Code</th><th style="width:15%">Proof</th><th>Note</th></tr>
+      <tr>
+        <td>§3.1 Read pending tasks from Excel</td>
+        <td class="f">excel_io.load_pending_tasks</td>
+        <td class="ok">tested</td>
+        <td>Filtering at read time is also what makes runs idempotent (gap 2).</td>
+      </tr>
+      <tr>
+        <td>§2 Detect batch vs sequential</td>
+        <td class="f">flow_detector.detect_flow_model</td>
+        <td class="ok">5 tests</td>
+        <td>Deterministic, not an LLM call. Reasoning below.</td>
+      </tr>
+      <tr>
+        <td>§3.3–4 Place return, capture ID / status / refund</td>
+        <td class="f">adapters/{amazon,flipkart}.py</td>
+        <td style="color:var(--amber);font-weight:700">scaffolded</td>
+        <td>Flow logic complete; selectors unverified against a live DOM. See scope.</td>
+      </tr>
+      <tr>
+        <td>§4 Write back per line item, all 10 fields</td>
+        <td class="f">excel_io.write_task_result</td>
+        <td class="ok">tested</td>
+        <td>Commits after every item, not batched, so a crash keeps completed work.</td>
+      </tr>
+      <tr>
+        <td>§5 Never abandon an order over one item</td>
+        <td class="f">orchestrator.process_order_group</td>
+        <td class="ok">end-to-end</td>
+        <td>Ineligible item hits <code class="inl">continue</code>, never an exception.</td>
+      </tr>
+      <tr>
+        <td>§5 Flag failures, don't drop them</td>
+        <td class="f">models.mark_terminal</td>
+        <td class="ok">tested</td>
+        <td>Only way a task can end. No path leaves an item unresolved.</td>
+      </tr>
+      <tr>
+        <td>§6 Behave like a human session</td>
+        <td class="f">core/stealth.py</td>
+        <td style="color:var(--amber);font-weight:700">unverified</td>
+        <td>Implemented and wired in; live durability is empirical.</td>
+      </tr>
+    </table>
+
+    <h3>The test that matters most</h3>
+    <p style="margin-top:4px">Reproduces the brief's own §5 example: 3-item order, item C out of window.</p>
+    <pre><span class="kw">assert</span> statuses[<span class="st">"SKU-PHONE-CASE-A"</span>] == <span class="st">"Placed"</span>
+<span class="kw">assert</span> statuses[<span class="st">"SKU-SCREEN-GUARD"</span>]  == <span class="st">"Out of window"</span>   <span class="cm"># the ineligible one</span>
+<span class="kw">assert</span> statuses[<span class="st">"SKU-CHARGER-C"</span>]   == <span class="st">"Placed"</span>
+<span class="kw">assert</span> all(s == <span class="st">"Done"</span> <span class="kw">for</span> s <span class="kw">in</span> task_statuses.values())  <span class="cm"># order fully resolved</span></pre>
+  </div>
+</section>
+
+<section id="arch">
+  <div class="wrap">
+    <div class="kicker">03 · Architecture</div>
+    <h2>How it fits together</h2>
+    <div class="arch">
+      <svg viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,sans-serif">
+        <defs><marker id="ar" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="#8b98a8"/></marker></defs>
+
+        <g class="node" onclick="pick('excel',this)">
+          <rect x="20" y="126" width="126" height="58" rx="8" fill="#e8eef7" stroke="#14325a" stroke-width="1.5"/>
+          <text x="83" y="150" text-anchor="middle" font-size="13" font-weight="650" fill="#14325a">Excel</text>
+          <text x="83" y="167" text-anchor="middle" font-size="10.5" fill="#5c6672">excel_io.py</text></g>
+        <line x1="148" y1="155" x2="200" y2="155" stroke="#8b98a8" stroke-width="1.5" marker-end="url(#ar)"/>
+
+        <g class="node" onclick="pick('orch',this)">
+          <rect x="204" y="114" width="148" height="82" rx="8" fill="#dce7f5" stroke="#14325a" stroke-width="2"/>
+          <text x="278" y="144" text-anchor="middle" font-size="13.5" font-weight="700" fill="#14325a">Orchestrator</text>
+          <text x="278" y="162" text-anchor="middle" font-size="10.5" fill="#5c6672">group · retry</text>
+          <text x="278" y="177" text-anchor="middle" font-size="10.5" fill="#5c6672">partial success</text></g>
+
+        <g class="node" onclick="pick('flow',this)">
+          <rect x="236" y="24" width="146" height="56" rx="8" fill="#e8eef7" stroke="#14325a" stroke-width="1.5"/>
+          <text x="309" y="47" text-anchor="middle" font-size="12.5" font-weight="650" fill="#14325a">Flow detector</text>
+          <text x="309" y="64" text-anchor="middle" font-size="10.5" fill="#5c6672">batch vs sequential</text></g>
+        <line x1="295" y1="112" x2="295" y2="84" stroke="#8b98a8" stroke-width="1.5" marker-end="url(#ar)"/>
+
+        <g class="node" onclick="pick('models',this)">
+          <rect x="236" y="240" width="146" height="56" rx="8" fill="#e8eef7" stroke="#14325a" stroke-width="1.5"/>
+          <text x="309" y="263" text-anchor="middle" font-size="12.5" font-weight="650" fill="#14325a">Models</text>
+          <text x="309" y="280" text-anchor="middle" font-size="10.5" fill="#5c6672">ReturnTask · status</text></g>
+        <line x1="295" y1="198" x2="295" y2="237" stroke="#8b98a8" stroke-width="1.5" marker-end="url(#ar)"/>
+
+        <line x1="354" y1="155" x2="408" y2="155" stroke="#8b98a8" stroke-width="1.5" marker-end="url(#ar)"/>
+
+        <g class="node" onclick="pick('base',this)">
+          <rect x="412" y="114" width="148" height="82" rx="8" fill="#dce7f5" stroke="#14325a" stroke-width="2"/>
+          <text x="486" y="144" text-anchor="middle" font-size="12.8" font-weight="700" fill="#14325a">PlatformAdapter</text>
+          <text x="486" y="162" text-anchor="middle" font-size="10.5" fill="#5c6672">abstract interface</text>
+          <text x="486" y="177" text-anchor="middle" font-size="10.5" fill="#5c6672">login · open · place</text></g>
+
+        <line x1="562" y1="140" x2="620" y2="108" stroke="#8b98a8" stroke-width="1.5" marker-end="url(#ar)"/>
+        <line x1="562" y1="172" x2="620" y2="204" stroke="#8b98a8" stroke-width="1.5" marker-end="url(#ar)"/>
+
+        <g class="node" onclick="pick('amazon',this)">
+          <rect x="624" y="74" width="126" height="54" rx="8" fill="#e8eef7" stroke="#14325a" stroke-width="1.5"/>
+          <text x="687" y="96" text-anchor="middle" font-size="12.5" font-weight="650" fill="#14325a">Amazon</text>
+          <text x="687" y="113" text-anchor="middle" font-size="10" fill="#5c6672">batch or sequential</text></g>
+        <g class="node" onclick="pick('flipkart',this)">
+          <rect x="624" y="184" width="126" height="54" rx="8" fill="#e8eef7" stroke="#14325a" stroke-width="1.5"/>
+          <text x="687" y="206" text-anchor="middle" font-size="12.5" font-weight="650" fill="#14325a">Flipkart</text>
+          <text x="687" y="223" text-anchor="middle" font-size="10" fill="#5c6672">always sequential</text></g>
+
+        <g class="node" onclick="pick('stealth',this)">
+          <rect x="782" y="74" width="92" height="54" rx="8" fill="#f0e9fb" stroke="#6b3fc4" stroke-width="1.5"/>
+          <text x="828" y="96" text-anchor="middle" font-size="12" font-weight="650" fill="#6b3fc4">Stealth</text>
+          <text x="828" y="113" text-anchor="middle" font-size="10" fill="#7a6a95">human-like</text></g>
+        <g class="node" onclick="pick('audit',this)">
+          <rect x="782" y="184" width="92" height="54" rx="8" fill="#f0e9fb" stroke="#6b3fc4" stroke-width="1.5"/>
+          <text x="828" y="206" text-anchor="middle" font-size="12" font-weight="650" fill="#6b3fc4">Audit log</text>
+          <text x="828" y="223" text-anchor="middle" font-size="10" fill="#7a6a95">JSONL</text></g>
+
+        <path d="M83 184 L83 278 L231 278" fill="none" stroke="#8b98a8" stroke-width="1.5"
+              stroke-dasharray="4,3" marker-end="url(#ar)"/>
+        <text x="112" y="296" font-size="10" fill="#8b98a8" font-style="italic">write-back, one row per item</text>
+      </svg>
+      <div id="archOut"></div>
+      <div class="hint" id="archHint">Click a component</div>
+    </div>
+    <p><b>The structural choice:</b> Amazon and Flipkart share nothing at the DOM level, and retail
+    markup changes constantly. Platform fragility is confined to one file per platform behind a shared
+    interface. The orchestrator has no <code class="inl">if platform ==</code> branch anywhere, so
+    adding Myntra is one new file, not edits to shared control flow.</p>
+  </div>
+</section>
+
+<section id="calls">
+  <div class="wrap">
+    <div class="kicker">04 · Judgment</div>
+    <h2>Flow detection is a rule, not an LLM call</h2>
+    <p style="margin-top:0">The obvious approach, and the one in a publicly posted solution to this same
+    brief, is to have an LLM read the page and infer the flow. I didn't.</p>
+    <table>
+      <tr><th style="width:18%"></th><th style="width:41%">LLM inference</th><th style="width:41%">Deterministic rule</th></tr>
+      <tr><td><b>Wrong how</b></td><td>Rarely, but unpredictably</td><td>Possibly more often, identically every time</td></tr>
+      <tr><td><b>Debug</b></td><td>Sampled at inference, may not reproduce</td><td>Read one dict, know the behaviour</td></tr>
+      <tr><td><b>Test</b></td><td>Needs mocks, still non-deterministic</td><td>Five plain unit tests</td></tr>
+      <tr><td><b>Cost</b></td><td>Tokens plus a round-trip per order</td><td>Zero</td></tr>
+      <tr><td><b>Failure</b></td><td class="no">Misclassify batch as sequential → duplicate return filed, invisible until support hears about it</td>
+          <td class="ok">Falls back to sequential: over-processes, never double-files</td></tr>
+    </table>
+    <p>That last row is the argument. Flow model is a property of the platform's UI, not something that
+    should vary run to run. <b>What I give up:</b> my rule won't cover a platform I haven't seen, where
+    an LLM degrades more gracefully. Unknown platforms default to sequential, and each new case becomes
+    a permanent rule plus a test rather than a hope the next inference goes better.</p>
+
+    <div class="two">
+      <div>
+        <h3 style="margin-top:14px">Selectors in YAML, not Python</h3>
+        <p style="font-size:13.8px">DOM drift is the most likely cause of a bad run. In config, a break
+        is a one-line edit an ops person makes, not a code change plus review plus redeploy. That's the
+        difference between a tool that survives production and one quietly abandoned after the third break.</p>
+      </div>
+      <div>
+        <h3 style="margin-top:14px">Demo mode exists for your time, not mine</h3>
+        <p style="font-size:13.8px">I could have shipped code that only runs with a live Flipkart login.
+        <code class="inl">--demo</code> exercises the same orchestration, eligibility, retry and
+        write-back paths with no browser, so this is reviewable in two minutes without provisioning anything.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="proof">
+  <div class="wrap">
+    <div class="kicker">05 · Proof</div>
+    <h2>Real output from a clean extraction of the zip</h2>
+
+    <pre class="sh"><span class="cm"># reproduce in 2 minutes</span>
+pip install -r requirements.txt
+python -m pytest tests/ -v
+python main.py --demo</pre>
+
+    <div class="terminal">
+      <div class="term-bar">$ python -m pytest tests/ -v</div>
+      <pre><span class="dim">collected 10 items</span>
+test_eligibility.py ....                       <span class="pass">4 PASSED</span>
+test_flow_detector.py .....                    <span class="pass">5 PASSED</span>
+test_orchestrator_partial_success.py .         <span class="pass">1 PASSED</span>
+<span class="pass">=================== 10 passed in 0.27s ===================</span></pre>
+    </div>
+
+    <h3>Excel write-back after one run</h3>
+    <p style="margin-top:4px">Order <b>OD1003</b> is the §5 case: one of three items is past its window.</p>
+    <table>
+      <tr><th>Order</th><th>SKU</th><th>Window</th><th>Return ID</th><th>Return status</th><th>Task status</th></tr>
+      <tr><td>OD1001</td><td>SKU-BLENDER-01</td><td>2026-08-10</td><td class="f">DRYRUN-OD1001-2</td><td class="ok">Placed</td><td>Done</td></tr>
+      <tr><td>AMZ2002</td><td>SKU-SHOES-BLK-9</td><td>2026-08-10</td><td class="f">DRYRUN-AMZ2002-3</td><td class="ok">Placed</td><td>Done</td></tr>
+      <tr><td>AMZ2002</td><td>SKU-SHOES-BLK-10</td><td>2026-08-10</td><td class="f">DRYRUN-AMZ2002-4</td><td class="ok">Placed</td><td>Done</td></tr>
+      <tr style="background:#fffbf2"><td><b>OD1003</b></td><td>SKU-PHONE-CASE-A</td><td>2026-08-10</td><td class="f">DRYRUN-OD1003-5</td><td class="ok">Placed</td><td>Done</td></tr>
+      <tr style="background:#fff4e0"><td><b>OD1003</b></td><td>SKU-SCREEN-GUARD</td><td><b>2026-07-26</b></td><td class="f">n/a</td><td style="color:var(--amber);font-weight:700">Out of window</td><td>Done</td></tr>
+      <tr style="background:#fffbf2"><td><b>OD1003</b></td><td>SKU-CHARGER-C</td><td>2026-08-10</td><td class="f">DRYRUN-OD1003-7</td><td class="ok">Placed</td><td>Done</td></tr>
+    </table>
+    <div class="box g">
+      <div class="t">Read the three OD1003 rows together</div>
+      <p>Expired item recorded, not dropped. Its two siblings still placed. Every row terminal, so the
+      order is fully resolved with no silent gaps. That's §5, in output rather than in prose.</p>
+    </div>
+
+    <div class="terminal">
+      <div class="term-bar">logs/run_20260731_105333.jsonl · Excel records outcomes, this records reasoning</div>
+      <pre>{<span class="st">"event"</span>:<span class="st">"order_group_start"</span>, <span class="st">"order_id"</span>:<span class="st">"OD1003"</span>, <span class="st">"flow_model"</span>:<span class="st">"sequential"</span>, <span class="st">"total_items"</span>:3}
+{<span class="st">"event"</span>:<span class="st">"item_out_of_window"</span>, <span class="st">"order_id"</span>:<span class="st">"OD1003"</span>, <span class="st">"sku"</span>:<span class="st">"SKU-SCREEN-GUARD"</span>}
+{<span class="st">"event"</span>:<span class="st">"order_group_done"</span>, <span class="st">"order_id"</span>:<span class="st">"OD1003"</span>, <span class="st">"placed"</span>:2, <span class="st">"out_of_window"</span>:1, <span class="st">"needs_review"</span>:0}</pre>
+    </div>
+  </div>
+</section>
+
+<section id="scope">
+  <div class="wrap">
+    <div class="kicker">06 · Scope</div>
+    <h2>What's real, what isn't, what's next</h2>
+    <div class="two">
+      <div>
+        <h3 style="margin-top:8px;color:var(--green)">Working and tested</h3>
+        <ul class="tight">
+          <li>Excel read/write, all ten spec fields</li>
+          <li>Order grouping, independent per-item processing</li>
+          <li>Eligibility check before any browser session</li>
+          <li>Partial success, verified against the brief's example</li>
+          <li>Batch vs sequential across five cases</li>
+          <li>Retry with exponential backoff plus jitter</li>
+          <li>Idempotent, resumable after a crash</li>
+          <li>Structured audit logging</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="margin-top:8px;color:var(--amber)">Scaffolded, needs a live session</h3>
+        <ul class="tight">
+          <li>The CSS selectors. Written against typical returns-page structure, not verified live,
+          because Flipkart login needs an OTP by phone call.</li>
+          <li>Stealth measures are wired in, but live durability is empirical and untested.</li>
+          <li>The OTP step is inherently human. I built the seam
+          (<code class="inl">_await_human_otp_entry</code>) rather than faking a workaround.</li>
+        </ul>
+        <div class="box a" style="margin-top:10px">
+          <p>Every candidate without a working test account is in this position. The difference is
+          whether they say so.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>First two weeks with real usage</h3>
+    <table>
+      <tr><th style="width:24%">Next</th><th style="width:11%">Effort</th><th>Why first</th></tr>
+      <tr><td><b>Selector health check</b></td><td>½ day</td>
+          <td>Confirms every selector resolves before a batch. Turns "50 orders failed overnight" into
+          one alert before we start. DOM drift is the likeliest cause of a bad run.</td></tr>
+      <tr><td><b>Recovery-rate dashboard</b></td><td>½ day</td>
+          <td>Refund value recovered, success rate by platform, review-queue age. Nobody reads JSONL
+          daily. Turns a script into something with an owner and a number.</td></tr>
+      <tr><td><b>Sheet-vs-platform drift report</b></td><td>1 day</td>
+          <td>From gap 5. Systematically stale windows are an upstream process problem worth more than
+          any individual return, and this agent is the only thing positioned to see it.</td></tr>
+      <tr><td><b>Volume-aware rate limiting</b></td><td>1 day</td>
+          <td>A new low-activity account filing 50 returns in an hour is a different risk profile from
+          an established one. Per-action delay doesn't capture that.</td></tr>
+    </table>
+
+    <h3>What I'd ask before writing production code</h3>
+    <ul class="tight">
+      <li>Does ops chase out-of-window items for goodwill refunds? Changes gap 4's default.</li>
+      <li>What daily volume, across how many platform accounts? Sets whether rate limiting is week one or month three.</li>
+      <li>Who works the review queue, and what's the SLA? An unworked queue means the work moved rather than disappeared.</li>
+      <li>Is Excel the long-term interface or a stopgap? Changes how much to invest there versus abstracting behind a repository.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p style="margin:0 0 4px"><b>Daksh Jain</b> · dakshjain311@gmail.com · +91 8377804969</p>
+    <p style="margin:0;color:var(--mut)">Source in the accompanying zip.
+    <code class="inl">README.md</code> for setup and scope, <code class="inl">DESIGN.md</code> for
+    long-form reasoning.</p>
+  </div>
+</footer>
+
+<script>
+function tg(el){ el.classList.toggle('open'); }
+
+const ARCH = {
+  excel:{t:'Excel I/O · core/excel_io.py',
+    b:'Reads only To Do / In Progress rows, which is what makes re-running safe after a crash. Writes one row per item immediately rather than batching, so an interrupted run keeps what it finished. All ten spec columns.'},
+  orch:{t:'Orchestrator · core/orchestrator.py',
+    b:'Groups tasks by order for flow detection, then processes each line item independently so one failure cannot take down its siblings. Owns the retry policy: eligibility failures terminate immediately, unexpected failures retry three times with backoff plus jitter. No platform-specific branching.'},
+  flow:{t:'Flow detector · core/flow_detector.py',
+    b:'Batch versus sequential per order. Deterministic, so it is free, instant and testable without mocks. Amazon is order-dependent on seller and shipment count, Flipkart is constant, unknown defaults to sequential: over-processes but never double-files.'},
+  models:{t:'Domain models · core/models.py',
+    b:'ReturnTask and OrderGroup as typed dataclasses, so orchestrator, adapters and Excel writer share one contract. mark_terminal() is the only way a task can end and always sets both status fields plus a timestamp, so no item finishes a run unresolved. is_fully_done is derived, never stored.'},
+  base:{t:'PlatformAdapter · adapters/base.py',
+    b:'Abstract interface: login, open_order, get_line_items, place_return. Why the orchestrator never branches on platform name. A new platform is one new file. Also the seam that lets each adapter be tested against saved HTML without a live browser.'},
+  amazon:{t:'Amazon adapter · adapters/amazon.py',
+    b:'Also returns seller_id and shipment_id from the order page, which the flow detector needs to decide batch versus sequential for that specific order. Flipkart does not need this because its answer is fixed.'},
+  flipkart:{t:'Flipkart adapter · adapters/flipkart.py',
+    b:'Always sequential. Login needs an OTP by phone call, so _await_human_otp_entry() is an explicit human-in-the-loop seam rather than a faked workaround, and the obvious place to swap in another OTP mechanism.'},
+  stealth:{t:'Stealth · core/stealth.py',
+    b:'Five signal categories: fingerprint patching, distribution-sampled delays, randomised cursor paths, per-character typing with jitter, persistent profile directory. Reduces detection risk, does not eliminate it, and the README says so.'},
+  audit:{t:'Audit log · core/audit_log.py',
+    b:'Structured JSONL per run. Excel records what happened, this records why, including retry counts. What someone working the review queue needs in order to act without re-running anything.'}
+};
+function pick(k, el){
+  document.querySelectorAll('.node').forEach(n=>n.classList.remove('sel'));
+  el.classList.add('sel');
+  const d = ARCH[k];
+  document.getElementById('archHint').style.display='none';
+  document.getElementById('archOut').innerHTML =
+    '<div class="box" style="margin:0"><div class="t">'+d.t+'</div><p>'+d.b+'</p></div>';
+}
+const secs=[...document.querySelectorAll('section')], lnks=[...document.querySelectorAll('nav a')];
+window.addEventListener('scroll',()=>{
+  let cur=secs[0].id;
+  secs.forEach(s=>{ if(window.scrollY >= s.offsetTop-110) cur=s.id; });
+  lnks.forEach(a=>a.classList.toggle('on', a.getAttribute('href')==='#'+cur));
+});
+</script>
+</body>
+</html>
