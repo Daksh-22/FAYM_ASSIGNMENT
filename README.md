@@ -1,47 +1,93 @@
-Subject: Faym PM Internship Assignment Submission – Daksh Jain
+# Faym PM Internship Assignment
 
-Hi [Hiring Team],
+Complete submission: returns automation agent + SQL analysis + interactive guide.
 
-I'm submitting my solution for the Faym PM Internship assignment.
+## 🚀 Start Here
 
-START HERE
-👉 Interactive Guide: https://faym-assignment-omega.vercel.app/
-(2-minute walkthrough of entire submission)
+**[Interactive Guide (Live)](https://faym-assignment-omega.vercel.app/)** — 2-minute walkthrough of the entire submission.
 
-SUBMISSIONS
-1. Interactive HTML Guide
-   Link: https://faym-assignment-omega.vercel.app/
-   Covers: 7 spec gaps, architecture, design decisions, proof
+---
 
-2. Returns Automation Agent
-   GitHub: https://github.com/YOUR_USERNAME/FAYM_ASSIGNMENT/tree/main/faym_agent
-   10/10 tests passing
-   Quick start: python main.py --demo (no credentials needed)
+## 📋 Three Submissions
 
-3. SQL Assignment
-   PDF: https://github.com/YOUR_USERNAME/FAYM_ASSIGNMENT/blob/main/assets/Daksh_Jain_Faym_SQL_Assignment.pdf
-   5 questions, real SQL execution, honest caveats on statistical assumptions
+### 1. Interactive HTML Guide
+- **Live:** https://faym-assignment-omega.vercel.app/
+- **Covers:** 7 spec gaps, architecture, key decisions, proof, scope
+- **Review time:** 2 min (overview) → 10 min (deep dive)
 
-HIGHLIGHTS
-✓ 10/10 unit tests passing
-✓ Reproduces brief's §5 scenario (partial success case)
-✓ Idempotent, resumable after crash
-✓ Deterministic flow detection (not LLM)
-✓ Two-tier retry logic (eligibility vs transient)
-✓ Honest about what's tested vs scaffolded
+### 2. Returns Automation Agent (`faym_agent/`)
 
-REVIEW PATH
-2 min:  Open the interactive guide
-10 min: + Run pytest and python main.py --demo
-30 min: + Read DESIGN.md and inspect core/ code
+**Quick Start**
+```bash
+cd faym_agent
+pip install -r requirements.txt
+python -m pytest tests/ -v          # 10/10 tests passing
+python main.py --demo               # Dry-run demo (no credentials needed)
+```
 
-GitHub Repo: https://github.com/YOUR_USERNAME/FAYM_ASSIGNMENT
+**What Works (Tested)**
+- ✓ Excel read/write (10 spec fields)
+- ✓ Order grouping, partial success
+- ✓ Eligibility checking, deterministic flow detection
+- ✓ Retry logic (eligibility 0×, transient 3×)
+- ✓ Idempotent, resumable runs
+- ✓ Structured audit logging
 
-Contact
-Email: dakshjain311@gmail.com
-Phone: +91 8377804969
+**What's Scaffolded**
+- ⚠ CSS selectors (representative, not verified live)
+- ⚠ Stealth measures (implemented, not bot-tested)
 
-Looking forward to discussing the submission.
+**Key Files**
+- `core/models.py` — ReturnTask, OrderGroup, status enums
+- `core/orchestrator.py` — Main loop, grouping, retries
+- `core/flow_detector.py` — Batch vs sequential detection
+- `adapters/{amazon,flipkart}.py` — Platform implementations
+- `tests/` — Unit tests (no browser needed)
+- `README.md` — Full setup guide
+- `DESIGN.md` — Design rationale
 
-Best regards,
-Daksh Jain
+### 3. SQL Assignment (`assets/Daksh_Jain_Faym_SQL_Assignment.pdf`)
+
+**5 Questions, Real SQL Against SQLite**
+- Q1: 7th highest IMPS debit = ₹9,525
+- Q2: Transaction counts by category (IMPS 272, IFT 89, UPI 86, NEFT 33, RTGS 21)
+- Q3: Distribution analysis (flagged: NOT normal, kurtosis -1.20)
+- Q4: Monthly cohort retention (January cohort 87.5–100% through July)
+- Q5: Top 10 percentile user (flagged: n=10, so "top 10%" = 1 user)
+
+**Honest caveats included** for statistical assumptions and dataset limitations.
+
+---
+
+## ✅ How to Review
+
+**2 minutes:** Open the [interactive guide](https://faym-assignment-omega.vercel.app/)
+
+**10 minutes:** + Run tests (`pytest tests/ -v`) and `main.py --demo`
+
+**30 minutes:** + Read `DESIGN.md` and inspect `core/` code
+
+---
+
+## 📊 Verification
+
+- [x] 10/10 tests passing
+- [x] 7 spec gaps identified and resolved
+- [x] Partial success scenario unit-tested
+- [x] Idempotent, resumable after crash
+- [x] SQL queries executed against real data
+- [x] Honest about tested vs. scaffolded
+
+---
+
+## 📧 Contact
+
+**Daksh Jain**
+- Email: dakshjain311@gmail.com
+- Phone: +91 8377804969
+- Location: Bangalore, India
+- GitHub: github.com/YOUR_USERNAME/FAYM_ASSIGNMENT
+
+---
+
+**Live guide:** https://faym-assignment-omega.vercel.app/
